@@ -46,3 +46,26 @@ Train a CRF model to automatically recase the text data without any casing.
 | /run.sh  Or /run_V2.sh                      | Execute the recaser engine                    |
 | /model                                      | All training models                           |
 | /evaluation_result                          | Evaluation result corresponding to each model |
+
+## 4. Project Structure:
+```mermaid
+flowchart TD;
+    A[Step1: Data Preparation]-->B[Step2: Fit Best Model];
+    B-->C[Step3: Recaser Engine];
+```
+
+### 4.1 Step1: DataPreparation.ipynb
+```mermaid
+flowchart TD;
+    A[Raw Data]-->B(Tokenize+Postag);
+    B-->C(Dataset Split);
+    C-->D(Transformation to CRF dataset);
+    D-->E[Trainset Testset Valset];
+```
+
+CRF dataset (right is an example):
+```
+token1  postag1 label1            i Np  U1
+token2  postag2 label2            am  V O
+token3  postag3 label3            fine Adj  O
+```
