@@ -98,7 +98,7 @@ flowchart TD;
     A[Trainset Valset Testset]-->B(Fit Model with Trainset);
     B-->C(Grid Search with Valset);
     C-->D(Evaluation with Testset);
-    D-->E[Model];
+    D-->E[Best Model];
 ```
 
 Fit Model Execution Line:
@@ -120,4 +120,16 @@ Evaluation Execution Line:
 python2 evaluation.py
 ```
 
+### 4.3 Step3: run.sh | run_V2.sh
+```mermaid
+flowchart TD;
+    A[Best Model]-->B[Recaser Engine];
+```
 
+Excution Line
+```
+bash run.sh
+```
+```
+cat data/SENTECNES | bash run.sh > OUTPUT_FILE
+```
