@@ -65,7 +65,7 @@ flowchart TD;
 
 CRF dataset (right is an example):
 ```
-token1  postag1 label1            i Np  U1
-token2  postag2 label2            am  V O
-token3  postag3 label3            fine Adj  O
+token1  postag1 label1            i     Np  U1
+token2  postag2 label2            am    V   O
+token3  postag3 label3            fine  Adj O
 ```
