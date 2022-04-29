@@ -54,7 +54,7 @@ flowchart TD;
     B-->C[Step3: Recaser Engine];
 ```
 
-### 4.1 Step1: DataPreparation.ipynb
+### 4.1 Step1: train_val_test_split.py
 ```mermaid
 flowchart TD;
     A[Raw Data]-->B(Tokenize+Postag);
@@ -63,9 +63,61 @@ flowchart TD;
     D-->E[Trainset Testset Valset];
 ```
 
-CRF dataset (right is an example):
+CRF dataset (right is an example of sentence: "I am fine"):
 ```
-token1  postag1 label1            i     Np  U1
-token2  postag2 label2            am    V   O
-token3  postag3 label3            fine  Adj O
+token1  postag1 label1            i     Np      U1
+token2  postag2 label2            am    V       O
+token3  postag3 label3            fine  Adj     O
 ```
+
+Apart from trainset, valset and testset, a template file is also required for model fitting process:
+```
+U00:%x[0,0]
+U01:%x[0,1]
+U02:%x[0,0]/%x[0,1]
+```
+
+The %x[a, b] corresponds to the specific element in CRF dataset:
+```
+token1(%x[0,0])  postag1(%x[1,0]) label1
+token2(%x[0,1])  postag2(%x[1,1]) label2
+token3(%x[0,2])  postag3(%x[1,2]) label3
+```
+
+Execution Line:
+```
+cat data/all_data.tok.vi | python2 train_val_test_split.py
+```
+```
+cat data/all_data.tok.vi | python2 all_data_split.py
+```
+
+### 4.2 Step2: gridsearch.py | evaluation.py
+```mermaid
+flowchart TD;
+    A[Trainset Valset Testset]-->B(Fit Model with Trainset);
+    B-->C(Grid Search with Valset);
+    C-->D(Evaluation with Testset);
+    D-->E[Model];
+```
+
+Fit Model Execution Line:
+```
+./crf-i2r train template data/train.crf model/MODEL_NAME
+```
+```
+./crf-i2r train template data/all_train.crf model/MODEL_NAME
+```
+
+Grid Search Execution Line:
+```
+python2 gridsearch.py
+```
+
+Evaluation Execution Line:
+```
+./crf-i2r test -m data/test.crf model/MODEL_NAME > data/test_result.crf
+python2 evaluation.py
+```
+
+
